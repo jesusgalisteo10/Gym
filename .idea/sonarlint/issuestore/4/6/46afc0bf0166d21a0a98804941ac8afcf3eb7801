@@ -1,0 +1,8 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒÿ€’ûÿÿÿÿ
+:
+java:S6905"Don't use the query "SELECT *".(–òŒûþÿÿÿÿ
+Y
+java:S1128"CRemove this unused import 'com.github.Franfuu.model.entity.Client'.(ªË¡—
+K
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úýÿÿÿÿ

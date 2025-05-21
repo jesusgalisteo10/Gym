@@ -1,0 +1,21 @@
+
+†	java:S112I"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚ÒéüÿÿÿÿJ$fcaa72dd-4824-46d0-90b4-6017d8e24f4b
+ˆ
+java:S1192"FDefine a constant instead of duplicating this literal "Email" 3 times.(®ÌÚ®ıÿÿÿÿJ$7c8c953e-8405-40fe-983e-7129fc89b504
+
+java:S1192Š"KDefine a constant instead of duplicating this literal "ClientCode" 3 times.(ƒÃ¢ÒüÿÿÿÿJ$c285ee89-4064-4305-9ae3-c8491622c5be
+…
+java:S1192Œ"HDefine a constant instead of duplicating this literal "Surname" 3 times.(‡§ËJ$b375df5e-844d-43d2-b95c-a9ca50266d14
+†
+java:S1192"IDefine a constant instead of duplicating this literal "Password" 3 times.(–÷ªòJ$a8d786d3-5fd4-4a40-9490-38d726cbb944
+š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒÿ€’ûÿÿÿÿJ$782694d7-7df1-417c-a56d-b3bef4b5f6a4
+Â
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÉôáÀıÿÿÿÿJ$692af619-96ec-4b62-88d5-1408c87fbe1f
+`
+java:S6905"Don't use the query "SELECT *".(³°²‰øÿÿÿÿJ$3f290c3b-4989-4759-8300-153ac38babeb
+`
+java:S6905"Don't use the query "SELECT *".(ÜÀé¢ıÿÿÿÿJ$5d12ec7b-0e8d-4ed6-9bae-19f592d1c4bd
+\
+java:S6905·"Don't use the query "SELECT *".(ûüöJ$84dcab22-54ea-4237-a7b6-9c2a7bcb770c
+R
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8¿¡’şŸ2
