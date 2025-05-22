@@ -1,32 +1,40 @@
 package com.example.model.connection;
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
-@XmlRootElement(name="connection")
+// Indica que esta clase es el elemento raíz del XML y que su nombre raíz es "connection"
+@XmlRootElement(name = "connection")
+// Indica que JAXB debe acceder a los campos (variables de instancia) directamente
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ConnectionProperties implements Serializable {
-    private static final long serialVersionUID=1L;
+public class ConnectionProperties {
+
+    // @XmlElement no es estrictamente necesario aquí si los nombres de los campos coinciden
+    // con los nombres de las etiquetas XML y usamos XmlAccessType.FIELD.
+    // Sin embargo, las dejo para mayor claridad y control.
+    @XmlElement(name = "server")
     private String server;
+    @XmlElement(name = "port")
     private String port;
+    @XmlElement(name = "database")
     private String database;
+    @XmlElement(name = "user")
     private String user;
+    @XmlElement(name = "password")
     private String password;
 
-    public ConnectionProperties(String server, String port, String database, String user, String password) {
-        this.server = server;
-        this.port = port;
-        this.database = database;
-        this.user = user;
-        this.password = password;
-    }
 
     public ConnectionProperties() {
     }
 
+    public String getURL() {
+        return "jdbc:mysql://" + server + ":" + port + "/" + database + "?useSSL=false&serverTimezone=UTC";
+    }
+
+    // Getters y setters (JAXB los usa para serializar/deserializar, pero con XmlAccessType.FIELD
+    // puede acceder directamente a los campos. Es buena práctica tenerlos de todos modos).
     public String getServer() {
         return server;
     }
@@ -74,11 +82,7 @@ public class ConnectionProperties implements Serializable {
                 ", port='" + port + '\'' +
                 ", database='" + database + '\'' +
                 ", user='" + user + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + (password != null && !password.isEmpty() ? "********" : "[empty]") + '\'' + // No mostrar la contraseña real en logs
                 '}';
-    }
-
-    public String getURL(){
-        return "jdbc:mariadb://"+server+":"+port+"/"+database;
     }
 }

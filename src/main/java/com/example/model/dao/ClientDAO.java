@@ -1,6 +1,6 @@
 package com.example.model.dao;
 
-import com.example.model.connection.ConnectionMariaDB;
+import com.example.model.connection.ConnectionBD;
 import com.example.model.entity.Client;
 import com.example.model.entity.Machine;
 
@@ -19,15 +19,15 @@ public class ClientDAO  implements DAO<Client>{
     private static final String UPDATE = "UPDATE client SET Name=?, Surname=?, Email=?, Password=?, DNI=?, Sex=? WHERE ClientCode=?";
     private static final String DELETE = "DELETE FROM client WHERE ClientCode=?";
 
-    // Empty constructor
+    //  Constructor vacío
     public ClientDAO() {
     }
 
     /**
-     * Saves a new client entity to the database.
+     * Guarda una nueva entidad de cliente en la base de datos.
      *
-     * @param entity the client entity to save
-     * @return the saved client entity
+     * @param entity la entidad de cliente a guardar
+     * @return la entidad de cliente guardada
      */
     @Override
     public Client save(Client entity) {
@@ -36,7 +36,7 @@ public class ClientDAO  implements DAO<Client>{
         try {
             if (findByClientCode(entity.getCode()) == null) {
                 // INSERT CLIENT
-                try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT)) {
+                try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT)) {
                     pst.setString(1, entity.getName());
                     pst.setString(2, entity.getSurname());
                     pst.setString(3, entity.getEmail());
@@ -53,10 +53,10 @@ public class ClientDAO  implements DAO<Client>{
     }
 
     /**
-     * Hashes a password using SHA-256 algorithm.
+     * Hashea una contraseña usando el algoritmo SHA-256.
      *
-     * @param password the password to hash
-     * @return the hashed password
+     * @param password la contraseña a hashear
+     * @return la contraseña hasheada
      */
     private String hashPassword(String password) {
         try {
@@ -74,14 +74,14 @@ public class ClientDAO  implements DAO<Client>{
     }
 
     /**
-     * Updates an existing client entity in the database.
+     * Actualiza una entidad de cliente existente en la base de datos.
      *
-     * @param entity the client entity to update
-     * @return the updated client entity
+     * @param entity la entidad de cliente a actualizar
+     * @return la entidad de cliente actualizada
      */
     public Client update(Client entity) {
         Client result = new Client();
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(UPDATE)) {
             pst.setString(1, entity.getName());
             pst.setString(2, entity.getSurname());
             pst.setString(3, entity.getEmail());
@@ -97,24 +97,24 @@ public class ClientDAO  implements DAO<Client>{
     }
 
     /**
-     * Creates and returns a new instance of ClientDAO.
+     * Crea y devuelve una nueva instancia de ClientDAO.
      *
-     * @return new instance of ClientDAO
+     * @return nueva instancia de ClientDAO
      */
     public static ClientDAO build() {
         return new ClientDAO();
     }
 
     /**
-     * Deletes a client from the database by their code.
+     * Elimina un cliente de la base de datos por su código.
      *
-     * @param clientCode the code of the client to delete
-     * @return true if the deletion was successful, false otherwise
-     * @throws SQLException if a database access error occurs
+     * @param clientCode el código del cliente a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     @Override
     public boolean delete(int clientCode) throws SQLException {
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETE)) {
             pst.setInt(1, clientCode);
             int rowsAffected = pst.executeUpdate();
             return rowsAffected > 0;
@@ -122,14 +122,14 @@ public class ClientDAO  implements DAO<Client>{
     }
 
     /**
-     * Finds a client by their code.
+     * Encuentra un cliente por su código.
      *
-     * @param code the code of the client to find
-     * @return the found client or null if no client was found
+     * @param code el código del cliente a encontrar
+     * @return el cliente encontrado o null si no se encontró ningún cliente
      */
     public static Client findByClientCode(Integer code) {
         Client result = null;
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDBYCODE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FINDBYCODE)) {
             pst.setInt(1, code);
             try (ResultSet res = pst.executeQuery()) {
                 if (res.next()) {
@@ -151,13 +151,13 @@ public class ClientDAO  implements DAO<Client>{
     }
 
     /**
-     * Finds all clients in the database.
+     * Encuentra todos los clientes en la base de datos.
      *
-     * @return a list of all clients
+     * @return una lista de todos los clientes
      */
     public static List<Client> findAll() {
         List<Client> result = new ArrayList<>();
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDALL)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FINDALL)) {
             try (ResultSet res = pst.executeQuery()) {
                 while (res.next()) {
                     Client c = new ClientLazy();
@@ -189,15 +189,15 @@ class ClientLazy extends Client {
     }
 
     /**
-     * Gets the machines associated with the client.
+     * Obtiene las máquinas asociadas al cliente.
      *
-     * @return a list of machines associated with the client
+     * @return una lista de máquinas asociadas al cliente
      */
     @Override
     public List<Machine> getMachines() {
         if (super.getMachines() == null) {
             List<Machine> result = new ArrayList<>();
-            try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDMACHINESBYCLIENTS)) {
+            try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FINDMACHINESBYCLIENTS)) {
                 pst.setInt(1, getCode());
                 try (ResultSet res = pst.executeQuery()) {
                     while (res.next()) {

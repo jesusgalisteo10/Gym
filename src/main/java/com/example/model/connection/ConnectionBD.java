@@ -7,12 +7,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionMariaDB {
+public class ConnectionBD {
     private final static String FILE="connection.xml";
-    private static ConnectionMariaDB _instance;
+    private static ConnectionBD _instance;
     private static Connection conn;
 
-    private ConnectionMariaDB(){
+    private ConnectionBD(){
         ConnectionProperties properties = (ConnectionProperties) XMLManager.readXML(new ConnectionProperties(),FILE);
 
         try {
@@ -25,7 +25,7 @@ public class ConnectionMariaDB {
 
     public static Connection getConnection(){
         if(_instance==null){
-            _instance = new ConnectionMariaDB();
+            _instance = new ConnectionBD();
         }
         return conn;
     }

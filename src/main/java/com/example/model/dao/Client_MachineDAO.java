@@ -1,53 +1,53 @@
 package com.example.model.dao;
 
-import com.example.model.connection.ConnectionMariaDB;
+import com.example.model.connection.ConnectionBD;
 import javafx.scene.control.Alert;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Client_MachineDAO {
-    // SQL query to insert a client-machine relationship into the database
+    //  // Consulta SQL para insertar una relación cliente-máquina en la base de datos
     private static final String INSERTCM = "INSERT INTO client_machine (ClientCode, MachineCode) VALUES (?, ?)";
-    // SQL query to delete a client-machine relationship from the database
+    //  // Consulta SQL para eliminar una relación cliente-máquina de la base de datos
     private static final String DELETEMC = "DELETE FROM client_machine WHERE ClientCode = ? AND MachineCode = ?;";
 
-    // Empty constructor that initializes an instance of Client_MachineDAO
+    // // Constructor vacío que inicializa una instancia de Client_MachineDAO
     public Client_MachineDAO() {
     }
 
     /**
-     * Creates and returns a new instance of Client_MachineDAO.
+     * Crea y devuelve una nueva instancia de Client_MachineDAO.
      *
-     * @return new instance of Client_MachineDAO
+     * @return nueva instancia de Client_MachineDAO
      */
     public static Client_MachineDAO build() {
         return new Client_MachineDAO();
     }
 
     /**
-     * Inserts a relationship between a machine and a client into the client_machine table.
+     * Inserta una relación entre una máquina y un cliente en la tabla client_machine.
      *
-     * @param machineCode the code of the machine to insert
-     * @param clientCode  the code of the client to insert
+     * @param machineCode el código de la máquina a insertar
+     * @param clientCode  el código del cliente a insertar
      */
     public static void insertMachineToClient(int machineCode, int clientCode) {
-        // Use a try-with-resources to ensure that the PreparedStatement is closed automatically
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERTCM)) {
-            // Set the parameters for the query
+        // Usa un try-with-resources para asegurar que el PreparedStatement se cierre automáticamente
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERTCM)) {
+            // Establece los parámetros para la consulta
             pst.setInt(1, machineCode);
             pst.setInt(2, clientCode);
-            // Execute the insert query
+            // Ejecuta la consulta de inserción
             pst.executeUpdate();
         } catch (SQLException e) {
-            // Specific exception handling for duplicate entries
+            // Manejo de excepciones específico para entradas duplicadas
             if (e.getSQLState().equals("23000") && e.getErrorCode() == 1062) {
-                // If a duplicate entry is found, show an alert to the user
+                //Si se encuentra una entrada duplicada, muestra una alerta al usuario
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error: Duplicate entry found.");
                 alert.show();
             } else {
-                // For other errors, print the stack trace
+                //  Para otros errores, imprime la traza de la pila
                 e.printStackTrace();
             }
         }
@@ -63,7 +63,7 @@ public class Client_MachineDAO {
      */
     public static boolean deleteMachineFromClient(int clientCode, int machineCode) throws SQLException {
         // Use a try-with-resources to ensure that the PreparedStatement is closed automatically
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETEMC)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETEMC)) {
             // Set the parameters for the query
             pst.setInt(1, clientCode);
             pst.setInt(2, machineCode);

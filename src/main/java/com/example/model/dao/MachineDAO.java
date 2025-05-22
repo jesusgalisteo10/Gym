@@ -1,6 +1,6 @@
 package com.example.model.dao;
 
-import com.example.model.connection.ConnectionMariaDB;
+import com.example.model.connection.ConnectionBD;
 import com.example.model.entity.Machine;
 import com.example.model.entity.Room;
 
@@ -16,21 +16,22 @@ public class MachineDAO implements DAO<Machine> {
     private static final String FINDALL = "SELECT * FROM Machine";
     private static final String FINDMACHINEBYCLIENT = "SELECT m.MachineCode, m.MachineType, m.RoomCode FROM Machine m JOIN Client_Machine cm ON m.MachineCode = cm.MachineCode WHERE cm.ClientCode = ?";
 
-    // Empty constructor
+    // Constructor vacío
     public MachineDAO() {
     }
 
+
     /**
-     * Saves a new machine entity to the database.
+     * Guarda una nueva entidad de máquina en la base de datos.
      *
-     * @param entity the machine entity to save
-     * @return the saved machine entity
-     * @throws SQLException if a database access error occurs
+     * @param entity la entidad de máquina a guardar
+     * @return la entidad de máquina guardada
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     @Override
     public Machine save(Machine entity) throws SQLException {
         if (entity == null) return null;
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             pst.setInt(1, entity.getRoom().getCode());
             pst.setString(2, entity.getMachineType());
             pst.executeUpdate();
@@ -47,15 +48,15 @@ public class MachineDAO implements DAO<Machine> {
 
 
     /**
-     * Updates an existing machine entity in the database.
+     * Actualiza una entidad de máquina existente en la base de datos.
      *
-     * @param entity the machine entity to update
-     * @return the updated machine entity
-     * @throws SQLException if a database access error occurs
+     * @param entity  la entidad de máquina a actualizar
+     * @return la entidad de máquina actualizada
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     public Machine update(Machine entity) throws SQLException {
         if (entity == null || entity.getRoom() == null) return null;
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(UPDATE)) {
             pst.setInt(1, entity.getRoom().getCode());
             pst.setString(2, entity.getMachineType());
             pst.setInt(3, entity.getCode());
@@ -65,15 +66,15 @@ public class MachineDAO implements DAO<Machine> {
     }
 
     /**
-     * Deletes a machine from the database by its code.
+     * Elimina una máquina de la base de datos por su código.
      *
-     * @param machineCode the code of the machine to delete
-     * @return true if the deletion was successful, false otherwise
-     * @throws SQLException if a database access error occurs
+     * @param machineCode el código de la máquina a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     @Override
     public boolean delete(int machineCode) throws SQLException {
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETE)) {
             pst.setInt(1, machineCode);
             int rowsAffected = pst.executeUpdate();
             return rowsAffected > 0;
@@ -81,15 +82,15 @@ public class MachineDAO implements DAO<Machine> {
     }
 
     /**
-     * Finds a machine by its code.
+     * Encuentra una máquina por su código.
      *
-     * @param code the code of the machine to find
-     * @return the found machine or null if no machine was found
-     * @throws SQLException if a database access error occurs
+     * @param code el código de la máquina a encontrar
+     * @return la máquina encontrada o null si no se encontró ninguna máquina
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     public static Machine findByMachineCode(Integer code) throws SQLException {
         Machine result = null;
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FIND_BY_CODE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FIND_BY_CODE)) {
             pst.setInt(1, code);
             try (ResultSet res = pst.executeQuery()) {
                 if (res.next()) {
@@ -104,19 +105,19 @@ public class MachineDAO implements DAO<Machine> {
     }
 
     /**
-     * Finds all machines in the database.
+     * Encuentra todas las máquinas en la base de datos.
      *
-     * @return a list of all machines
-     * @throws SQLException if a database access error occurs
+     * @return una lista de todas las máquinas
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     public static List<Machine> findAll() throws SQLException {
         List<Machine> result = new ArrayList<>();
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDALL)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FINDALL)) {
             try (ResultSet res = pst.executeQuery()) {
                 while (res.next()) {
                     Machine machine = new Machine();
                     machine.setCode(res.getInt("MachineCode"));
-                    // Eager fetch the Room entity
+                    // Carga ansiosa de la entidad Room (Habitación)
                     machine.setRoom(RoomDAO.findByRoomCode(res.getInt("RoomCode")));
                     machine.setMachineType(res.getString("MachineType"));
                     result.add(machine);
@@ -127,14 +128,14 @@ public class MachineDAO implements DAO<Machine> {
     }
 
     /**
-     * Finds machines associated with a specific client code.
+     * Encuentra máquinas asociadas a un código de cliente específico.
      *
-     * @param clientCode the code of the client
-     * @return a list of machines associated with the client
+     * @param clientCode el código del cliente
+     * @return una lista de máquinas asociadas al cliente
      */
     public static List<Machine> findByCode(int clientCode) {
         List<Machine> machines = new ArrayList<>();
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDMACHINEBYCLIENT)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FINDMACHINEBYCLIENT)) {
             pst.setInt(1, clientCode);
             try (ResultSet res = pst.executeQuery()) {
                 while (res.next()) {
@@ -154,9 +155,9 @@ public class MachineDAO implements DAO<Machine> {
     }
 
     /**
-     * Creates and returns a new instance of MachineDAO.
+     * Crea y devuelve una nueva instancia de MachineDAO.
      *
-     * @return new instance of MachineDAO
+     * @return nueva instancia de MachineDAO
      */
     public static MachineDAO build() {
         return new MachineDAO();

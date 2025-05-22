@@ -1,6 +1,6 @@
 package com.example.model.dao;
 
-import com.example.model.connection.ConnectionMariaDB;
+import com.example.model.connection.ConnectionBD;
 import com.example.model.entity.Room;
 import com.example.model.entity.Machine;
 
@@ -20,10 +20,10 @@ public class RoomDAO {
     private static final String FINDMACHINESBYROOM = "SELECT * FROM Machine WHERE RoomCode = ?;";
 
     /**
-     * Saves a new room entity to the database.
+     * Guarda una nueva entidad de sala en la base de datos.
      *
-     * @param entity the room entity to save
-     * @return the saved room entity
+     * @param entity la entidad de sala a guardar
+     * @return la entidad de sala guardada
      */
     public static Room save(Room entity) {
         Room result = entity;
@@ -31,7 +31,7 @@ public class RoomDAO {
         try {
             if (findByRoomCode(entity.getCode()) == null) {
                 // INSERT
-                try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+                try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
                     pst.setInt(1, entity.getCode());
                     pst.executeUpdate();
                 }
@@ -43,14 +43,14 @@ public class RoomDAO {
     }
 
     /**
-     * Updates an existing room entity in the database.
+     * Actualiza una entidad de sala existente en la base de datos.
      *
-     * @param entity the room entity to update
-     * @return the updated room entity
+     * @param entity la entidad de sala a actualizar
+     * @return la entidad de sala actualizada
      */
     public Room update(Room entity) {
         Room result = new Room();
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(UPDATE)) {
             pst.setInt(1, entity.getCode());
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -60,14 +60,14 @@ public class RoomDAO {
     }
 
     /**
-     * Deletes a room from the database by its code.
+     * Elimina una sala de la base de datos por su código.
      *
-     * @param roomCode the code of the room to delete
-     * @return true if the deletion was successful, false otherwise
-     * @throws SQLException if a database access error occurs
+     * @param roomCode código de la sala a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     public static boolean delete(int roomCode) throws SQLException {
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETE)) {
             pst.setInt(1, roomCode);
             int rowsAffected = pst.executeUpdate();
             return rowsAffected > 0;
@@ -75,23 +75,23 @@ public class RoomDAO {
     }
 
     /**
-     * Finds a room by its code.
+     * Encuentra una sala por su código.
      *
-     * @param code the code of the room to find
-     * @return the found room or null if no room was found
+     * @param code el código de la sala a encontrar
+     * @return la sala encontrada o null si no se encontró ninguna sala
      */
     public static Room findByRoomCode(Integer code) {
         Room result = null;
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDBYCODE)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FINDBYCODE)) {
             pst.setInt(1, code);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 result = new Room();
                 result.setCode(res.getInt("RoomCode"));
 
-                // Fetch machines associated with the room
+                //  Obtener máquinas asociadas a la sala
                 ArrayList<Machine> machines = new ArrayList<>();
-                try (PreparedStatement pstMachine = ConnectionMariaDB.getConnection().prepareStatement(FINDMACHINESBYROOM)) {
+                try (PreparedStatement pstMachine = ConnectionBD.getConnection().prepareStatement(FINDMACHINESBYROOM)) {
                     pstMachine.setInt(1, code);
                     ResultSet resMachines = pstMachine.executeQuery();
                     while (resMachines.next()) {
@@ -112,13 +112,13 @@ public class RoomDAO {
     }
 
     /**
-     * Finds all rooms in the database.
+     * Encuentra todas las salas en la base de datos.
      *
-     * @return a list of all rooms
+     * @return una lista de todas las salas
      */
     public static List<Room> findAll() {
         List<Room> result = new ArrayList<>();
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDALL)) {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FINDALL)) {
             ResultSet res = pst.executeQuery();
             while (res.next()) {
                 Room room = new Room();
@@ -133,9 +133,9 @@ public class RoomDAO {
     }
 
     /**
-     * Creates and returns a new instance of RoomDAO.
+     * Crea y devuelve una nueva instancia de RoomDAO.
      *
-     * @return new instance of RoomDAO
+     * @return nueva instancia de RoomDAO
      */
     public static RoomDAO build() {
         return new RoomDAO();

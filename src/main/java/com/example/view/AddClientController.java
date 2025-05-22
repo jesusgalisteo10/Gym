@@ -50,13 +50,14 @@ public class AddClientController extends Controller implements Initializable {
     }
 
     /**
-     * Handles the save action when the user clicks the save button.
-     * Validates input fields (name, surname, DNI, email, password, sex) and displays error messages if any field is empty
-     * or if DNI or email formats are invalid. If all validations pass, creates a new Client object and saves it using
-     * ClientDAO. Shows a success message upon successful client addition and navigates back to the main page.
-     * Closes the current window after successful operation.
+     * Maneja la acción de guardar cuando el usuario hace clic en el botón de guardar.
+     * Valida los campos de entrada (nombre, apellido, DNI, correo electrónico, contraseña, sexo)
+     * y muestra mensajes de error si algún campo está vacío o si los formatos de DNI o correo electrónico son inválidos.
+     * Si todas las validaciones pasan, crea un nuevo objeto Client y lo guarda usando ClientDAO.
+     * Muestra un mensaje de éxito al agregar el cliente correctamente y navega de vuelta a la página principal.
+     * Cierra la ventana actual después de una operación exitosa.
      *
-     * @param event the event triggered by the save action
+     * @param event el evento activado por la acción de guardar
      */
     @FXML
     public void onSave(Event event) {
@@ -68,28 +69,28 @@ public class AddClientController extends Controller implements Initializable {
             String password = fieldPassword.getText().trim();
             String sex = fieldSex.getText().trim();
 
-            // Check if any field is empty
+            // Verificar si algún campo está vacío
             if (name.isEmpty() || surname.isEmpty() || dni.isEmpty() || email.isEmpty() || password.isEmpty() || sex.isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Campos Vacíos", "Por favor, complete todos los campos.");
             } else {
-                // Validate DNI format
+                // Validar formato de DNI
                 if (!validateDNI(dni)) {
                     showAlert(Alert.AlertType.ERROR, "Error en DNI", "El formato del DNI no es válido.");
                 } else {
-                    // Validate email format
+                    // Validar formato de correo electrónico
                     if (!validateEmail(email)) {
                         showAlert(Alert.AlertType.ERROR, "Error en Correo Electrónico", "El formato del correo electrónico no es válido.");
                     } else {
-                        // Create Client object and save to database
+                        // Crear objeto Cliente y guardar en la base de datos
                         Client client = new Client(name, surname, email, password, dni, sex);
                         ClientDAO cdao = new ClientDAO();
                         cdao.save(client);
 
-                        // Show success message and navigate to main page
+                        // Mostrar mensaje de éxito y navegar a la página principal
                         showAlert(Alert.AlertType.INFORMATION, "Cliente Agregado", "El cliente se ha agregado correctamente.");
                         App.currentController.changeScene(Scenes.MAINPAGE, null);
 
-                        // Close current window
+                        // Cerrar ventana actual
                         ((Node) (event.getSource())).getScene().getWindow().hide();
                     }
                 }
@@ -102,10 +103,10 @@ public class AddClientController extends Controller implements Initializable {
 
 
     /**
-     * Validates an email address using a regular expression.
+     * Valida una dirección de correo electrónico usando una expresión regular.
      *
-     * @param email the email address to validate
-     * @return true if the email address is valid, false otherwise
+     * @param email la dirección de correo electrónico a validar
+     * @return true si la dirección de correo electrónico es válida, false en caso contrario
      */
     private boolean validateEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -113,10 +114,10 @@ public class AddClientController extends Controller implements Initializable {
     }
 
     /**
-     * Validates a Spanish DNI (National Identity Document) format.
+     * Valida el formato de un DNI español (Documento Nacional de Identidad).
      *
-     * @param dni the DNI number to validate
-     * @return true if the DNI format is valid, false otherwise
+     * @param dni el número de DNI a validar
+     * @return true si el formato del DNI es válido, false en caso contrario
      */
     private boolean validateDNI(String dni) {
         String dniRegex = "\\d{8}[a-zA-Z]";
@@ -124,11 +125,11 @@ public class AddClientController extends Controller implements Initializable {
     }
 
     /**
-     * Displays an alert dialog with specified alert type, title, and content.
+     * Muestra un cuadro de diálogo de alerta con el tipo de alerta, título y contenido especificados.
      *
-     * @param alertType the type of alert (e.g., error, information)
-     * @param title the title text of the alert
-     * @param content the content text of the alert
+     * @param alertType el tipo de alerta (ej. error, información)
+     * @param title el texto del título de la alerta
+     * @param content el texto del contenido de la alerta
      */
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
