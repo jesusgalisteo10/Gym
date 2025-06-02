@@ -38,38 +38,38 @@ public class AddRoomController extends Controller implements Initializable {
 
     }
     /**
-     * Handles the save action when the user clicks the save button.
-     * Validates and saves a new room code, ensuring it's not empty and within valid range.
-     * Checks if the room code already exists in the database before saving.
-     * Shows appropriate error messages for invalid input or existing room codes.
+     * Maneja la acción de guardar cuando el usuario hace clic en el botón de guardar.
+     * Valida y guarda un nuevo código de sala, asegurándose de que no esté vacío y esté dentro de un rango válido.
+     * Verifica si el código de sala ya existe en la base de datos antes de guardar.
+     * Muestra mensajes de error apropiados para entradas inválidas o códigos de sala existentes.
      *
-     * @param event the event triggered by the save action
-     * @throws Exception if there's an issue during database operations or parsing room code
+     * @param event el evento activado por la acción de guardar
+     * @throws Exception si hay un problema durante las operaciones de base de datos o al parsear el código de sala
      */
     public void onSave(Event event) throws Exception {
         String roomCodeText = fieldRoom.getText().trim();
 
-        // Check if room code field is empty
+        // Comprueba si el campo del código de sala está vacío
         if (roomCodeText.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "El campo no puede estar vacío.");
         } else {
             try {
                 int roomCode = Integer.parseInt(roomCodeText);
 
-                // Check if room code is within valid range
+                // Comprueba si el código de sala está dentro del rango válido
                 if (roomCode > 9999) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El valor no puede ser mayor que 9999.");
                 } else {
                     RoomDAO roomDAO = new RoomDAO();
 
-                    // Check if room code already exists in the database
+                    // Comprueba si el código de sala ya existe en la base de datos
                     if (roomDAO.findByRoomCode(roomCode) != null) {
                         showAlert(Alert.AlertType.ERROR, "Error", "El código de habitación ya existe en la base de datos.");
                     } else {
-                        // Save new room if it doesn't exist
+                        // Guarda la nueva sala si no existe
                         Room room = new Room(roomCode);
                         roomDAO.save(room);
-                        // Navigate to show machines page and close current window
+                        // Navega a la página de mostrar máquinas y cierra la ventana actual
                         App.currentController.changeScene(Scenes.SHOWMACHINES, null);
                         ((Node) (event.getSource())).getScene().getWindow().hide();
                     }
