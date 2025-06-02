@@ -34,7 +34,7 @@ public class ConnectionProperties {
     }
 
     // Getters y setters (JAXB los usa para serializar/deserializar, pero con XmlAccessType.FIELD
-    // puede acceder directamente a los campos. Es buena práctica tenerlos de todos modos).
+
     public String getServer() {
         return server;
     }
