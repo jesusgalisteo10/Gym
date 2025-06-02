@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="231.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.view.AddMachineToClientController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="231.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.view.AddMachineToClientController">
    <children>
       <ComboBox fx:id="machineComboBox" layoutX="34.0" layoutY="37.0" prefHeight="47.0" prefWidth="162.0" promptText="Maquinas" />
       <ComboBox fx:id="clientComboBox" layoutX="35.0" layoutY="147.0" prefHeight="47.0" prefWidth="161.0" promptText="Clientes" />

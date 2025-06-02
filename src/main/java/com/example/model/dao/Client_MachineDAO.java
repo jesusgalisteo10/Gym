@@ -32,44 +32,44 @@ public class Client_MachineDAO {
      * @param clientCode  el código del cliente a insertar
      */
     public static void insertMachineToClient(int machineCode, int clientCode) {
-        // Usa un try-with-resources para asegurar que el PreparedStatement se cierre automáticamente
+
         try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERTCM)) {
             // Establece los parámetros para la consulta
             pst.setInt(1, machineCode);
             pst.setInt(2, clientCode);
-            // Ejecuta la consulta de inserción
+
             pst.executeUpdate();
         } catch (SQLException e) {
-            // Manejo de excepciones específico para entradas duplicadas
+
             if (e.getSQLState().equals("23000") && e.getErrorCode() == 1062) {
-                //Si se encuentra una entrada duplicada, muestra una alerta al usuario
+
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error: Duplicate entry found.");
                 alert.show();
             } else {
-                //  Para otros errores, imprime la traza de la pila
+
                 e.printStackTrace();
             }
         }
     }
 
     /**
-     * Deletes a relationship between a client and a machine from the client_machine table.
+     * Elimina una relación entre un cliente y una máquina de la tabla 'client_machine'.
      *
-     * @param clientCode  the code of the client whose relationship is to be deleted
-     * @param machineCode the code of the machine whose relationship is to be deleted
-     * @return true if the deletion was successful, false otherwise
-     * @throws SQLException if a database access error occurs
+     * @param clientCode  el código del cliente cuya relación se va a eliminar
+     * @param machineCode el código de la máquina cuya relación se va a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
+     * @throws SQLException si ocurre un error de acceso a la base de datos
      */
     public static boolean deleteMachineFromClient(int clientCode, int machineCode) throws SQLException {
-        // Use a try-with-resources to ensure that the PreparedStatement is closed automatically
+
         try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETEMC)) {
-            // Set the parameters for the query
+
             pst.setInt(1, clientCode);
             pst.setInt(2, machineCode);
-            // Execute the delete query and get the number of affected rows
+
             int rowsAffected = pst.executeUpdate();
-            // Return true if any rows were affected, indicating that the deletion was successful
+
             return rowsAffected > 0;
         }
     }
