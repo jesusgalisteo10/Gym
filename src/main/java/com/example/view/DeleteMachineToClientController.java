@@ -47,18 +47,18 @@ public class DeleteMachineToClientController extends Controller implements Initi
 
     }
     /**
-     * Initializes the controller upon FXML loading.
-     * Retrieves all clients and machines from the database to populate the client and machine combo boxes.
-     * Maps client codes to client names and machine codes to machine types for combo box display.
-     * Sets up event handling for deleting a machine from a client.
-     * Shows alerts for successful deletion, assignment error, or database operation failure.
+     * Inicializa el controlador al cargar el FXML.
+     * Recupera todos los clientes y máquinas de la base de datos para rellenar los cuadros combinados de clientes y máquinas.
+     * Mapea los códigos de cliente a los nombres de cliente y los códigos de máquina a los tipos de máquina para la visualización en los cuadros combinados.
+     * Configura el manejo de eventos para eliminar una máquina de un cliente.
+     * Muestra alertas para eliminación exitosa, error de asignación o fallo en la operación de base de datos.
      *
-     * @param location  the location used to resolve relative paths for the root object, or null if the location is not known
-     * @param resources the resources used to localize the root object, or null if the root object was not localized
+     * @param location la ubicación utilizada para resolver rutas relativas para el objeto raíz, o null si la ubicación no se conoce
+     * @param resources los recursos utilizados para localizar el objeto raíz, o null si el objeto raíz no fue localizado
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Populate client combo box with client names
+        // Rellena el cuadro combinado de clientes con los nombres de los clientes.
         List<Client> clients = ClientDAO.build().findAll();
         clientsMap = new HashMap<>();
         for (Client client : clients) {
@@ -66,7 +66,7 @@ public class DeleteMachineToClientController extends Controller implements Initi
         }
         clientComboBox.setItems(FXCollections.observableArrayList(clientsMap.values()));
 
-        // Populate machine combo box with machine types
+        // Rellena el cuadro combinado de máquinas con los tipos de máquina.
         List<Machine> machines;
         try {
             machines = MachineDAO.findAll();
@@ -81,10 +81,10 @@ public class DeleteMachineToClientController extends Controller implements Initi
     }
 
     /**
-     * Handles the action of deleting a machine from a client.
-     * Retrieves selected machine and client codes from combo boxes, validates them,
-     * and deletes the association from the database.
-     * Displays appropriate alert messages for success, assignment error, or database operation failure.
+     * Maneja la acción de eliminar una máquina de un cliente.
+     * Recupera los códigos de máquina y cliente seleccionados de los cuadros combinados, los valida,
+     * y elimina la asociación de la base de datos.
+     * Muestra mensajes de alerta apropiados para éxito, error de asignación o fallo en la operación de base de datos.
      */
     @FXML
     private void deleteMachineFromClient() {
