@@ -31,16 +31,15 @@ public class DeleteClientController extends Controller implements Initializable 
     public void onClose(Object output) {
 
     }
-
     /**
-     * Initializes the controller upon FXML loading.
-     * Sets up the delete client button action to handle client deletion.
-     * Deletes a client from the database based on the entered client code.
-     * Shows alerts for various scenarios such as empty input, invalid client code format,
-     * successful deletion, or deletion failure.
+     * Inicializa el controlador al cargar el FXML.
+     * Configura la acción del botón de eliminar cliente para manejar la eliminación del cliente.
+     * Elimina un cliente de la base de datos basándose en el código de cliente introducido.
+     * Muestra alertas para varios escenarios, como entrada vacía, formato de código de cliente inválido,
+     * eliminación exitosa o fallo de eliminación.
      *
-     * @param location the location used to resolve relative paths for the root object, or null if the location is not known
-     * @param resources the resources used to localize the root object, or null if the root object was not localized
+     * @param location la ubicación utilizada para resolver rutas relativas para el objeto raíz, o null si la ubicación no se conoce
+     * @param resources los recursos utilizados para localizar el objeto raíz, o null si el objeto raíz no fue localizado
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,24 +53,24 @@ public class DeleteClientController extends Controller implements Initializable 
     }
 
     /**
-     * Handles the delete client action when triggered by the delete client button.
-     * Validates and deletes a client from the database based on the entered client code.
-     * Shows appropriate error messages for invalid input, invalid client code format,
-     * successful deletion, or deletion failure.
+     * Maneja la acción de eliminar un cliente cuando se activa mediante el botón de eliminar cliente.
+     * Valida y elimina un cliente de la base de datos basándose en el código de cliente introducido.
+     * Muestra mensajes de error apropiados para entradas inválidas, formato de código de cliente inválido,
+     * eliminación exitosa o fallo de eliminación.
      *
-     * @param event the event triggered by the delete client action
-     * @throws SQLException if there's an issue during database operations
+     * @param event el evento activado por la acción de eliminar cliente
+     * @throws SQLException si hay un problema durante las operaciones de base de datos
      */
     @FXML
     private void deleteClient(Event event) throws SQLException {
         String clientCode = fieldClientCode.getText().trim();
 
-        // Check if client code field is empty
+        // Comprueba si el campo del código del cliente está vacío.
         if (clientCode.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "El campo del código del cliente no puede estar vacío.");
         } else {
             try {
-                // Check if client code contains only digits
+                // Comprueba si el código del cliente contiene solo dígitos
                 if (!clientCode.matches("\\d+")) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El código del cliente debe contener solo números.");
                     return;
@@ -79,7 +78,7 @@ public class DeleteClientController extends Controller implements Initializable 
                 ClientDAO cdao = new ClientDAO();
                 boolean deleted = cdao.delete(Integer.parseInt(clientCode));
 
-                // Display appropriate alert based on deletion result
+                // Muestra una alerta apropiada según el resultado de la eliminación.
                 if (deleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Éxito", "El cliente se ha eliminado correctamente.");
                     App.currentController.changeScene(Scenes.MAINPAGE, null);
