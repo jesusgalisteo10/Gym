@@ -35,14 +35,14 @@ public class DeleteMachineController extends Controller implements Initializable
     }
 
     /**
-     * Initializes the controller upon FXML loading.
-     * Sets up the delete machine button action to handle machine deletion.
-     * Deletes a machine from the database based on the entered machine code.
-     * Shows alerts for various scenarios such as empty input, invalid machine code format,
-     * successful deletion, or deletion failure.
+     * Inicializa el controlador cuando se carga el FXML.
+     * Configura la acción del botón de eliminar máquina para manejar la eliminación de la misma.
+     * Elimina una máquina de la base de datos basándose en el código de máquina introducido.
+     * Muestra alertas para varios escenarios como entrada vacía, formato de código de máquina inválido,
+     * eliminación exitosa o fallo en la eliminación.
      *
-     * @param location the location used to resolve relative paths for the root object, or null if the location is not known
-     * @param resources the resources used to localize the root object, or null if the root object was not localized
+     * @param location la ubicación utilizada para resolver rutas relativas para el objeto raíz, o null si la ubicación no se conoce
+     * @param resources los recursos utilizados para localizar el objeto raíz, o null si el objeto raíz no fue localizado
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,24 +56,24 @@ public class DeleteMachineController extends Controller implements Initializable
     }
 
     /**
-     * Handles the delete machine action when triggered by the delete machine button.
-     * Validates and deletes a machine from the database based on the entered machine code.
-     * Shows appropriate error messages for invalid input, invalid machine code format,
-     * successful deletion, or deletion failure.
+     * Maneja la acción de eliminar una máquina cuando es activada por el botón de eliminar máquina.
+     * Valida y elimina una máquina de la base de datos basándose en el código de máquina introducido.
+     * Muestra mensajes de error apropiados para entradas inválidas, formato de código de máquina inválido,
+     * eliminación exitosa o fallo en la eliminación.
      *
-     * @param event the event triggered by the delete machine action
-     * @throws SQLException if there's an issue during database operations
+     * @param event el evento activado por la acción de eliminar máquina
+     * @throws SQLException si hay un problema durante las operaciones de base de datos
      */
     @FXML
     private void deleteMachine(Event event) throws SQLException {
         String machineCode = fieldMachineCode.getText().trim();
 
-        // Check if machine code field is empty
+        // Comprueba si el campo del código de máquina está vacío.
         if (machineCode.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "El campo del código de máquina no puede estar vacío.");
         } else {
             try {
-                // Check if machine code contains only digits
+                // Comprueba si el código de máquina contiene solo dígitos
                 if (!machineCode.matches("\\d+")) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El código de máquina debe contener solo números.");
                     return;
@@ -81,7 +81,7 @@ public class DeleteMachineController extends Controller implements Initializable
                 MachineDAO mdao = new MachineDAO();
                 boolean deleted = mdao.delete(Integer.parseInt(machineCode));
 
-                // Display appropriate alert based on deletion result
+
                 if (deleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Éxito", "La máquina se ha eliminado correctamente.");
                     App.currentController.changeScene(Scenes.SHOWMACHINES, null);
