@@ -30,9 +30,9 @@ public class WelcomeController extends Controller implements Initializable {
 
     }
     /**
-     * Sets the action to navigate to the admin way (main page).
+     * Establece la acción para navegar a la ruta de administración (página principal).
      *
-     * @throws Exception If an error occurs while changing the scene to the main page.
+     * @throws Exception Si ocurre un error al cambiar la escena a la página principal.
      */
     public void setAdminWayButton() throws Exception {
         App.currentController.changeScene(Scenes.MAINPAGE, null);
