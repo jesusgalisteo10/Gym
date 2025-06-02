@@ -57,25 +57,24 @@ public class MainController extends Controller implements Initializable {
     private ObservableList<Client> clientList;
 
     /**
-     * Method invoked when the view associated with this controller is opened.
-     * Loads all clients from the database and displays them in the table.
+     * metodo invocado cuando se abre la vista asociada a este controlador.
+     * Carga todos los clientes de la base de datos y los muestra en la tabla.
      *
-     * @param input The input object (typically not directly used in this context).
-     * @throws Exception If an error occurs while loading clients from the database.
+     * @param input El objeto de entrada (típicamente no usado directamente en este contexto).
+     * @throws Exception Si ocurre un error al cargar los clientes de la base de datos.
      */
     @Override
     public void onOpen(Object input) throws Exception {
-        // Initialize the DAO to access client data
+        // Inicializa el DAO  para acceder a la información del cliente.
         ClientDAO cdao = new ClientDAO();
 
-        // Retrieve all clients from the database
+        // Recupera todos los clientes de la base de datos.
         List<Client> clients = cdao.findAll();
 
-        // Convert the list of clients to an observable list for JavaFX
+       // Convierte la lista de clientes a una lista observable para JavaFX (necesario para TableView).
         this.clientList = FXCollections.observableArrayList(clients);
 
-        // Set the observable list as the items to display in the table (tableInfo)
-        tableInfo.setItems(this.clientList);
+        // Establece la lista observable como los elementos a mostrar en la tabla (tableInfo).
     }
 
 
@@ -85,43 +84,43 @@ public class MainController extends Controller implements Initializable {
     }
 
     /**
-     * Validates if a DNI number has the correct format.
+     * Valida si un número de DNI tiene el formato correcto.
      *
-     * @param dni The DNI number to validate.
-     * @return true if the DNI has the correct format, false otherwise.
+     * @param dni El número de DNI a validar.
+     * @return true si el DNI tiene el formato correcto, false en caso contrario.
      */
     private boolean validateDNI(String dni) {
-        // Regular expression to validate DNI: 8 digits followed optionally by a letter
+        // Expresión regular para validar el DNI español: 8 dígitos seguidos de una letra.
         String dniPattern = "\\d{8}[a-zA-Z]";
         return dni.matches(dniPattern);
     }
-
     /**
-     * Validates if an email address has the correct format.
+     * Valida si una dirección de correo electrónico tiene el formato correcto.
      *
-     * @param email The email address to validate.
-     * @return true if the email address has the correct format, false otherwise.
+     * @param email La dirección de correo electrónico a validar.
+     * @return true si la dirección de correo electrónico tiene el formato correcto, false en caso contrario.
      */
     private boolean validateEmail(String email) {
-        // Regular expression to validate email address
+        // Expresion para regular el email
         String emailPattern = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         return email.matches(emailPattern);
     }
 
 
     /**
-     * Initializes the controller.
-     * Sets up table columns for editing client information and handles edit commit events.
+     * Inicializa el controlador.
+     * Configura las columnas de la tabla para permitir la edición de la información del cliente
+     * y maneja los eventos de confirmación de edición.
      *
-     * @param location  The location used to resolve relative paths for the root object.
-     * @param resources The resources used to localize the root object.
+     * @param location La ubicación utilizada para resolver rutas relativas para el objeto raíz.
+     * @param resources Los recursos utilizados para localizar el objeto raíz.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Enable table editing
+        // Habilita la edición de la tabla.
         tableInfo.setEditable(true);
 
-        // Set row factory to handle double-click events on rows
+        // Configura la fábrica de filas para manejar eventos de doble clic en las filas.
         tableInfo.setRowFactory(tv -> {
             TableRow<Client> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -137,90 +136,91 @@ public class MainController extends Controller implements Initializable {
             return row;
         });
 
-        // Configure column 'Code' for client code
+        //  Configuración de columnas para edición
+
         colCode.setCellValueFactory(client -> new SimpleStringProperty(String.valueOf(client.getValue().getCode())));
         colCode.setOnEditCommit(event -> {
             try {
-                // Check if new value is different from old value
+                // Verifica si el nuevo valor es diferente al valor antiguo.
                 if (event.getNewValue().equals(event.getOldValue())) {
                     return;
                 }
-                // Validate length of new value
+                // Valida la longitud del nuevo valor.
                 if (event.getNewValue().length() <= 60) {
                     Client client = event.getRowValue();
                     client.setCode(Integer.parseInt(event.getNewValue()));
                     ClientDAO.build().update(client);
                 } else {
-                    // Display error if length exceeds 60 characters
+                    // Muestra un error si la longitud excede los 60 caracteres.
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Error, field cannot exceed 50 characters");
                     alert.show();
                 }
             } catch (NumberFormatException e) {
-                // Display error if invalid number format
+                // Muestra un error si se introduce un formato de número inválido
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error, invalid number format entered");
                 alert.show();
             }
         });
 
-        // Configure column 'Name' for client name
+        // Configura la columna 'Name' (Nombre) para el nombre del cliente.
         colName.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getName()));
         colName.setCellFactory(TextFieldTableCell.forTableColumn());
         colName.setOnEditCommit(event -> {
             try {
-                // Check if new value is different from old value
+                // Verifica si el nuevo valor es diferente al valor antiguo.
                 if (event.getNewValue().equals(event.getOldValue())) {
                     return;
                 }
-                // Validate length of new value
+                // Valida la longitud del nuevo valor.
                 if (event.getNewValue().length() <= 60) {
                     Client client = event.getRowValue();
                     client.setName(event.getNewValue());
                     ClientDAO.build().update(client);
                 } else {
-                    // Display error if length exceeds 60 characters
+                    // Muestra un error si la longitud excede los 60 caracteres.
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Error, field cannot exceed 50 characters");
                     alert.show();
                 }
             } catch (NumberFormatException e) {
-                // Display error if invalid number format
+                // Muestra un error si se introduce un formato de número inválido
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error, invalid number format entered");
                 alert.show();
             }
         });
 
-        // Configure column 'Surname' for client surname
+        // Configura la columna 'Surname' (Apellido) para el apellido del cliente.
         colSurname.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSurname()));
         colSurname.setCellFactory(TextFieldTableCell.forTableColumn());
         colSurname.setOnEditCommit(event -> {
             try {
-                // Check if new value is different from old value
+                // Verifica si el nuevo valor es diferente al valor antiguo.
                 if (event.getNewValue().equals(event.getOldValue())) {
                     return;
                 }
-                // Validate length of new value
+                // Valida la longitud del nuevo valor.
                 if (event.getNewValue().length() <= 60) {
                     Client client = event.getRowValue();
                     client.setSurname(event.getNewValue());
                     ClientDAO.build().update(client);
                 } else {
-                    // Display error if length exceeds 60 characters
+                    // Muestra un error si la longitud excede los 60 caracteres.
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Error, field cannot exceed 50 characters");
                     alert.show();
                 }
             } catch (NumberFormatException e) {
-                // Display error if invalid number format
+                // Muestra un error si se introduce un formato de número inválido
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error, invalid number format entered");
                 alert.show();
             }
         });
 
-        // Configure column 'DNI' for client DNI
+        // Configura la columna 'DNI' para el DNI del cliente.
         colDNI.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getDni()));
         colDNI.setCellFactory(TextFieldTableCell.forTableColumn());
         colDNI.setOnEditCommit(event -> {
@@ -228,7 +228,7 @@ public class MainController extends Controller implements Initializable {
             try {
                 String newValue = event.getNewValue().trim();
 
-                // Validate DNI format and length
+                // Valida el formato y la longitud del DNI.
                 if (newValue.isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Error", "DNI cannot be empty.");
                     shouldUpdate = false;
@@ -253,7 +253,7 @@ public class MainController extends Controller implements Initializable {
             }
         });
 
-        // Configure column 'Email' for client email
+        // Configura la columna 'Email' para el correo electrónico del cliente
         colEmail.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getEmail()));
         colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
         colEmail.setOnEditCommit(event -> {
@@ -261,7 +261,7 @@ public class MainController extends Controller implements Initializable {
             try {
                 String newValue = event.getNewValue().trim();
 
-                // Validate email format and length
+                // Valida el formato y la longitud del correo electrónico
                 if (newValue.isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Error", "Email cannot be empty.");
                     shouldUpdate = false;
@@ -286,28 +286,28 @@ public class MainController extends Controller implements Initializable {
             }
         });
 
-        // Configure column 'Sex' for client sex
+        // Configura la columna 'Sex' (Sexo) para el sexo del cliente.
         colSex.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSex()));
         colSex.setCellFactory(TextFieldTableCell.forTableColumn());
         colSex.setOnEditCommit(event -> {
             try {
-                // Check if new value is different from old value
+                // Verifica si el nuevo valor es diferente al valor antiguo
                 if (event.getNewValue().equals(event.getOldValue())) {
                     return;
                 }
-                // Validate length of new value
+                // Valida la longitud del nuevo valor.
                 if (event.getNewValue().length() <= 60) {
                     Client client = event.getRowValue();
                     client.setSex(event.getNewValue());
                     ClientDAO.build().update(client);
                 } else {
-                    // Display error if length exceeds 60 characters
+                    // Muestra un error si la longitud excede los 60 caracteres
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Error, field cannot exceed 50 characters");
                     alert.show();
                 }
             } catch (NumberFormatException e) {
-                // Display error if invalid number format
+                // Muestra un error si se introduce un formato de número inválido
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error, invalid number format entered");
                 alert.show();
@@ -317,27 +317,27 @@ public class MainController extends Controller implements Initializable {
 
 
     /**
-     * Opens the scene to add a new client by calling the corresponding modal dialog.
+     * Abre la escena para añadir un nuevo cliente llamando al diálogo modal correspondiente.
      *
-     * @throws Exception If there is an error while opening the modal dialog.
+     * @throws Exception Si ocurre un error al abrir el diálogo modal.
      */
     public void openAddClient() throws Exception {
         App.currentController.openModal(Scenes.ADDCLIENT, "Adding client...", this, null);
     }
 
     /**
-     * Opens the scene to delete a client by calling the corresponding modal dialog.
+     * Abre la escena para eliminar un cliente llamando al diálogo modal correspondiente.
      *
-     * @throws Exception If there is an error while opening the modal dialog.
+     * @throws Exception Si ocurre un error al abrir el diálogo modal.
      */
     public void openDeleteClient() throws Exception {
         App.currentController.openModal(Scenes.DELETECLIENT, "Deleting client...", this, null);
     }
 
     /**
-     * Opens the scene to show machines associated with clients.
+     * Abre la escena para mostrar las máquinas asociadas a los clientes.
      *
-     * @throws Exception If there is an error while changing the scene.
+     * @throws Exception Si ocurre un error al cambiar la escena.
      */
     public void openShowMachines() throws Exception {
         App.currentController.changeScene(Scenes.SHOWMACHINES, null);
@@ -353,9 +353,9 @@ public class MainController extends Controller implements Initializable {
     }
 
     /**
-     * Opens the modal dialog to delete a machine associated with a client.
+     * Abre el diálogo modal para añadir una máquina a un cliente.
      *
-     * @throws Exception If there is an error while opening the modal dialog.
+     * @throws Exception Si ocurre un error al abrir el diálogo modal.
      */
     public void openDeleteMachineClient() throws Exception {
         App.currentController.openModal(Scenes.DELETEMACHINETOCLIENT, "Deleting associated machine...", this, null);
