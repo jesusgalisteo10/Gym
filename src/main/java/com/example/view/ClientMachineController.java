@@ -38,19 +38,19 @@ public class ClientMachineController extends Controller implements Initializable
     private ObservableList<Machine> machineList;
     private Client client;
     /**
-     * Initializes and manages the display of machines associated with a specific client.
-     * Displays a table view of machines assigned to the client, including machine code, type, and room.
-     * Allows navigation back to the main page and dynamically updates client information.
+     * Inicializa y gestiona la visualización de las máquinas asociadas a un cliente específico.
+     * Muestra una vista de tabla con las máquinas asignadas al cliente, incluyendo el código de máquina, tipo y sala.
+     * Permite la navegación de vuelta a la página principal y actualiza dinámicamente la información del cliente.
      *
-     * @param input the input data (Client object) passed to initialize the controller
-     * @throws Exception if there's an issue during database operations or client information retrieval
+     * @param input los datos de entrada (objeto Client) pasados para inicializar el controlador
+     * @throws Exception si hay un problema durante las operaciones de base de datos o la recuperación de información del cliente
      */
     @Override
     public void onOpen(Object input) throws Exception {
         client = (Client) input;
         showName();
 
-        // Retrieve machines associated with the client from the database
+        // Recupera las máquinas asociadas con el cliente de la base de datos
         List<Machine> machines = MachineDAO.findByCode(client.getCode());
         this.machineList = FXCollections.observableArrayList(machines);
         tableMachine.setItems(this.machineList);
@@ -60,17 +60,17 @@ public class ClientMachineController extends Controller implements Initializable
     }
 
     /**
-     * Updates client name display on the UI.
+     * Actualiza la visualización del nombre del cliente en la interfaz de usuario.
      */
     private void showName() {
         textName.setText(client.getName() + " " + client.getSurname());
     }
 
     /**
-     * Navigates back to the main page of the application.
-     * Throws an exception if there's an issue during scene change.
+     * Navega de vuelta a la página principal de la aplicación.
+     * Lanza una excepción si hay un problema durante el cambio de escena.
      *
-     * @throws Exception if there's an issue during scene change
+     * @throws Exception si hay un problema durante el cambio de escena
      */
     @FXML
     private void goBack() throws Exception {
@@ -78,11 +78,11 @@ public class ClientMachineController extends Controller implements Initializable
     }
 
     /**
-     * Initializes table columns and their respective cell value factories for displaying machine details.
-     * Configures columns for machine code, type, and associated room.
+     * Inicializa las columnas de la tabla y sus respectivas fábricas de valores de celda para mostrar los detalles de la máquina.
+     * Configura las columnas para el código de máquina, tipo y sala asociada.
      *
-     * @param location the location used to resolve relative paths for the root object
-     * @param resources the resources used to localize the root object, or null if the root object was not localized
+     * @param location la ubicación utilizada para resolver rutas relativas para el objeto raíz
+     * @param resources los recursos utilizados para localizar el objeto raíz, o null si el objeto raíz no fue localizado
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
