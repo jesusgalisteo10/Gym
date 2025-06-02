@@ -36,12 +36,12 @@ public class DeleteRoomController extends Controller implements Initializable {
 
     }
     /**
-     * Handles the action of deleting a room from the database.
-     * Retrieves the room code from the text field, validates it,
-     * and deletes the room if valid. Shows appropriate alert messages
-     * for success, validation errors, or database operation failures.
+     * Maneja la acción de eliminar una sala de la base de datos.
+     * Recupera el código de la sala del campo de texto, lo valida,
+     * y elimina la sala si es válido. Muestra mensajes de alerta apropiados
+     * para éxito, errores de validación o fallos en la operación de base de datos.
      *
-     * @param event the event triggered by the delete room button
+     * @param event el evento activado por el botón de eliminar sala
      */
     @FXML
     private void deleteRoom(Event event) {
