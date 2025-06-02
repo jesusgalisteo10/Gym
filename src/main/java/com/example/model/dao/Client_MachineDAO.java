@@ -34,7 +34,7 @@ public class Client_MachineDAO {
     public static void insertMachineToClient(int machineCode, int clientCode) {
 
         try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERTCM)) {
-            // Establece los parámetros para la consulta
+
             pst.setInt(1, machineCode);
             pst.setInt(2, clientCode);
 
