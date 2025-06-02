@@ -6,35 +6,33 @@ import com.example.App;
 
 public abstract class Controller {
     /**
-     * Represents an abstract base class for controllers in the application.
-     * Defines abstract methods for handling opening and closing events.
-     * Provides a method to set the application instance.
-     *
-     * @param app the instance of the main application
+     * Representa una clase base abstracta para los controladores en la aplicación.
+     * Define métodos abstractos para manejar eventos de apertura y cierre.
+     * Proporciona un metodo para establecer la instancia de la aplicación.
      */
     App app;
 
     /**
-     * Sets the instance of the main application.
+     * Establece la instancia de la aplicación principal.
      *
-     * @param app the instance of the main application
+     * @param app la instancia de la aplicación principal
      */
     public void setApp(App app) {
         this.app = app;
     }
 
     /**
-     * Defines the method to be implemented for handling the opening event.
+     * Define el metodo a implementar para manejar el evento de apertura.
      *
-     * @param input the input data for the opening event
-     * @throws Exception if there's an issue during event handling
+     * @param input los datos de entrada para el evento de apertura
+     * @throws Exception si hay un problema durante el manejo del evento
      */
     public abstract void onOpen(Object input) throws Exception;
 
     /**
-     * Defines the method to be implemented for handling the closing event.
+     * Define el metodo a implementar para manejar el evento de cierre.
      *
-     * @param output the output data for the closing event
+     * @param output los datos de salida para el evento de cierre
      */
     public abstract void onClose(Object output);
 
