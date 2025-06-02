@@ -21,12 +21,12 @@ public class AppController extends Controller implements Initializable {
     private BorderPane borderPane;
     private Controller centerController;
     /**
-     * Controls the application's main functionality and scene management.
-     * Handles loading FXML views, changing scenes within the application,
-     * and opening modal dialogs. Initializes the application with a welcome scene.
+     * Controla la funcionalidad principal de la aplicación y la gestión de escenas.
+     * Maneja la carga de vistas FXML, el cambio de escenas dentro de la aplicación
+     * y la apertura de diálogos modales. Inicializa la aplicación con una escena de bienvenida.
      *
-     * @param input the input data (not used in this implementation)
-     * @throws Exception if there's an issue during scene loading or initialization
+     * @param input los datos de entrada (no utilizados en esta implementación)
+     * @throws Exception si hay un problema durante la carga o inicialización de la escena
      */
     @Override
     public void onOpen(Object input) throws Exception {
@@ -34,10 +34,10 @@ public class AppController extends Controller implements Initializable {
     }
 
     /**
-     * Initializes the controller when the FXML file is loaded.
+     * Inicializa el controlador cuando se carga el archivo FXML.
      *
-     * @param url the location used to resolve relative paths for the root object, or null if the location is not known
-     * @param rb the resources used to localize the root object, or null if the root object was not localized
+     * @param url la ubicación utilizada para resolver rutas relativas para el objeto raíz, o null si la ubicación no se conoce
+     * @param rb los recursos utilizados para localizar el objeto raíz, o null si el objeto raíz no fue localizado
      */
     @FXML
     public void initialize(URL url, ResourceBundle rb)  {
@@ -45,11 +45,11 @@ public class AppController extends Controller implements Initializable {
     }
 
     /**
-     * Loads an FXML view based on the provided scene enumeration.
+     * Carga una vista FXML basada en la enumeración de escena proporcionada.
      *
-     * @param scenes the scene enumeration indicating which FXML view to load
-     * @return the loaded View object containing the loaded scene and its corresponding controller
-     * @throws Exception if there's an issue during FXML loading
+     * @param scenes la enumeración de escena que indica qué vista FXML cargar
+     * @return el objeto View cargado que contiene la escena cargada y su controlador correspondiente
+     * @throws Exception si hay un problema durante la carga del FXML
      */
     public static View loadFXML(Scenes scenes) throws Exception {
         String url = scenes.getURL();
@@ -64,12 +64,12 @@ public class AppController extends Controller implements Initializable {
     }
 
     /**
-     * Changes the main center scene of the application to the specified scene.
-     * Loads the FXML view, sets it as the center of the BorderPane, and initializes its controller.
+     * Cambia la escena central principal de la aplicación a la escena especificada.
+     * Carga la vista FXML, la establece como el centro del BorderPane e inicializa su controlador.
      *
-     * @param scene the scene enumeration indicating which FXML view to load and display
-     * @param data the data object passed to the newly loaded scene's controller
-     * @throws Exception if there's an issue during scene loading or controller initialization
+     * @param scene la enumeración de escena que indica qué vista FXML cargar y mostrar
+     * @param data el objeto de datos pasado al controlador de la escena recién cargada
+     * @throws Exception si hay un problema durante la carga de la escena o la inicialización del controlador
      */
     public void changeScene(Scenes scene, Object data) throws Exception {
         View view = loadFXML(scene);
@@ -79,14 +79,14 @@ public class AppController extends Controller implements Initializable {
     }
 
     /**
-     * Opens a modal dialog with the specified scene, title, parent controller, and data object.
-     * Loads the FXML view, initializes the stage as a modal dialog, and displays it.
+     * Abre un diálogo modal con la escena, título, controlador padre y objeto de datos especificados.
+     * Carga la vista FXML, inicializa la ventana (Stage) como un diálogo modal y la muestra.
      *
-     * @param scene the scene enumeration indicating which FXML view to load and display as a modal dialog
-     * @param title the title of the modal dialog window
-     * @param parent the parent controller that opened the modal dialog
-     * @param data the data object passed to the modal dialog's controller
-     * @throws Exception if there's an issue during modal dialog loading or controller initialization
+     * @param scene la enumeración de escena que indica qué vista FXML cargar y mostrar como un diálogo modal
+     * @param title el título de la ventana del diálogo modal
+     * @param parent el controlador padre que abrió el diálogo modal
+     * @param data el objeto de datos pasado al controlador del diálogo modal
+     * @throws Exception si hay un problema durante la carga del diálogo modal o la inicialización del controlador
      */
     public void openModal(Scenes scene, String title, Controller parent, Object data) throws Exception {
         View view = loadFXML(scene);
@@ -101,9 +101,9 @@ public class AppController extends Controller implements Initializable {
     }
 
     /**
-     * Handles the cleanup when the application is closed or the controller is no longer needed.
+     * Maneja la limpieza cuando la aplicación se cierra o el controlador ya no es necesario.
      *
-     * @param output the output data (not used in this implementation)
+     * @param output los datos de salida (no utilizados en esta implementación)
      */
     @Override
     public void onClose(Object output) {
