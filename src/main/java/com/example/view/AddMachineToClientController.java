@@ -50,15 +50,16 @@ public class AddMachineToClientController extends Controller implements Initiali
     }
 
     /**
-     * Initializes the controller with client and machine data for dropdown menus.
-     * Retrieves and populates client and machine dropdowns with data from the database.
-     * Handles the assignment of machines to clients based on user selection.
+     * Inicializa el controlador con datos de clientes y máquinas para los menús desplegables.
+     * Recupera y rellena los menús desplegables de clientes y máquinas con datos de la base de datos.
+     * Maneja la asignación de máquinas a clientes basándose en la selección del usuario.
      *
-     * @throws Exception if there's an issue during database operations
+     * @param location la ubicación utilizada para resolver rutas relativas de recursos
+     * @param resources los recursos utilizados para localizar el objeto raíz
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Retrieve all clients from database and populate clientComboBox
+        // Recupera todos los clientes de la base de datos y rellena el ComboBox de clientes.
         List<Client> clients = ClientDAO.build().findAll();
         clientsMap = new HashMap<>();
         for (Client client : clients) {
@@ -66,7 +67,7 @@ public class AddMachineToClientController extends Controller implements Initiali
         }
         clientComboBox.setItems(FXCollections.observableArrayList(clientsMap.values()));
 
-        // Retrieve all machines from database and populate machineComboBox
+        // Recupera todas las máquinas de la base de datos y rellena el ComboBox de máquinas.
         List<Machine> machines;
         try {
             machines = MachineDAO.findAll();
@@ -81,12 +82,12 @@ public class AddMachineToClientController extends Controller implements Initiali
     }
 
     /**
-     * Assigns the selected machine to the selected client.
-     * Retrieves the selected machine and client codes from their respective dropdowns,
-     * then inserts the association into the database using Client_MachineDAO.
-     * Shows an error message if either machine or client is not selected properly.
+     * Asigna la máquina seleccionada al cliente seleccionado.
+     * Recupera los códigos de máquina y cliente seleccionados de sus respectivos menús desplegables,
+     * luego inserta la asociación en la base de datos usando Client_MachineDAO.
+     * Muestra un mensaje de error si la máquina o el cliente no se seleccionaron correctamente.
      *
-     * @throws SQLException if there's an issue during database operation
+     * @throws SQLException si hay un problema durante la operación de base de datos
      */
     @FXML
     private void AssignMachines() throws SQLException {
@@ -108,16 +109,16 @@ public class AddMachineToClientController extends Controller implements Initiali
 
         int machineCode = 0;
         int clientCode = 0;
-        // Validate and parse codes to integers
+        // Valida y parsea los códigos a enteros.
         if (CodeMachine != null && CodeMachine.matches("\\d+") && CodeClient != null && CodeClient.matches("\\d+")) {
             machineCode = Integer.parseInt(CodeMachine);
             clientCode = Integer.parseInt(CodeClient);
 
-            // Insert the machine-to-client association into the database
+            // Inserta la asociación de máquina a cliente en la base de datos.
             Client_MachineDAO.insertMachineToClient(clientCode, machineCode);
 
         } else {
-            // Show error alert if either machine or client is not selected properly
+            // Muestra una alerta de error si la máquina o el cliente no se seleccionaron correctamente.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("No se ha seleccionado nada en la base de datos");
             alert.show();
