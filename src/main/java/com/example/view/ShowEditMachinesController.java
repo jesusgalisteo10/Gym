@@ -49,21 +49,21 @@ public class ShowEditMachinesController extends Controller implements Initializa
 
 
     /**
-     * Initializes the view associated with this controller when it is opened.
-     * Retrieves all machines from the database and populates them into the table view.
+     * Inicializa la vista asociada con este controlador cuando se abre.
+     * Recupera todas las máquinas de la base de datos y las carga en la vista de tabla.
      *
-     * @param input Object input (typically not used directly in this context).
-     * @throws Exception If an error occurs while retrieving machines from the database.
+     * @param input Objeto de entrada (generalmente no se usa directamente en este contexto).
+     * @throws Exception Si ocurre un error al recuperar máquinas de la base de datos.
      */
     @Override
     public void onOpen(Object input) throws Exception {
-        // Retrieve all machines from the database
+        // Recupera todas las máquinas de la base de datos.
         List<Machine> machines = MachineDAO.findAll();
 
-        // Convert the list of machines into an observable list for JavaFX
+        // Convierte la lista de máquinas en una lista observable para JavaFX.
         this.machineList = FXCollections.observableArrayList(machines);
 
-        // Set the observable list as the items to display in the table view (tableMachine)
+        // Establece la lista observable como los elementos a mostrar en la vista de tabla (tableMachine).
         tableMachine.setItems(this.machineList);
     }
 
@@ -74,9 +74,9 @@ public class ShowEditMachinesController extends Controller implements Initializa
     }
 
     /**
-     * Navigates back to the main page.
+     * Navega de vuelta a la página principal.
      *
-     * @throws Exception If an error occurs while changing the scene to the main page.
+     * @throws Exception Si ocurre un error al cambiar la escena a la página principal.
      */
     @FXML
     public void goBack() throws Exception {
@@ -85,21 +85,22 @@ public class ShowEditMachinesController extends Controller implements Initializa
 
 
     /**
-     * Initializes the controller when the associated view is loaded.
-     * Sets up the table view for machines with editable columns.
+     * Inicializa el controlador cuando se carga la vista asociada.
+     * Configura la vista de tabla para máquinas con columnas editables.
      *
-     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
-     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     * @param location La ubicación utilizada para resolver rutas relativas para el objeto raíz, o null si la ubicación no se conoce.
+     * @param resources Los recursos utilizados para localizar el objeto raíz, o null si el objeto raíz no fue localizado.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Make the table view editable
+        // Hace que la vista de tabla sea editable, permitiendo al usuario modificar los datos directamente en la tabla.
         tableMachine.setEditable(true);
 
-        // Set up column for machine code
+        // Configura la columna para el código de la máquina.
         colCodeMachine.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getCode()).asObject());
 
-        // Set up column for room code
+
+        // Configura la columna para el código de la sala.
         colRoom.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getRoom().getCode()).asObject());
         colRoom.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         colRoom.setOnEditCommit(event -> {
@@ -124,7 +125,7 @@ public class ShowEditMachinesController extends Controller implements Initializa
             }
         });
 
-        // Set up column for machine type
+        // Configura la columna para el tipo de máquina.
         colMachine.setCellValueFactory(machine -> new SimpleStringProperty(machine.getValue().getMachineType()));
         colMachine.setCellFactory(TextFieldTableCell.forTableColumn());
         colMachine.setOnEditCommit(event -> {
@@ -152,36 +153,36 @@ public class ShowEditMachinesController extends Controller implements Initializa
 
 
     /**
-     * Opens a modal dialog to add a new room.
+     * Abre un diálogo modal para añadir una nueva sala.
      *
-     * @throws Exception If an error occurs while opening the modal dialog.
+     * @throws Exception Si ocurre un error al abrir el diálogo modal.
      */
     public void openAddRoom() throws Exception {
         App.currentController.openModal(Scenes.ADDROOM, "Adding room...", this, null);
     }
 
     /**
-     * Opens a modal dialog to add a new machine.
+     * Abre un diálogo modal para añadir una nueva máquina.
      *
-     * @throws Exception If an error occurs while opening the modal dialog.
+     * @throws Exception Si ocurre un error al abrir el diálogo modal.
      */
     public void openAddMachine() throws Exception {
         App.currentController.openModal(Scenes.ADDMACHINE, "Adding machine...", this, null);
     }
 
     /**
-     * Opens a modal dialog to delete an existing machine.
+     * Abre un diálogo modal para eliminar una máquina existente.
      *
-     * @throws Exception If an error occurs while opening the modal dialog.
+     * @throws Exception Si ocurre un error al abrir el diálogo modal.
      */
     public void openDeleteMachine() throws Exception {
         App.currentController.openModal(Scenes.DELETEMACHINE, "Deleting machine...", this, null);
     }
 
     /**
-     * Opens a modal dialog to delete an existing room.
+     * Abre un diálogo modal para eliminar una sala existente.
      *
-     * @throws Exception If an error occurs while opening the modal dialog.
+     * @throws Exception Si ocurre un error al abrir el diálogo modal.
      */
     public void openDeleteRoom() throws Exception {
         App.currentController.openModal(Scenes.DELETEROOM, "Deleting room...", this, null);
