@@ -21,7 +21,7 @@ public class RegAdminController extends Controller implements Initializable {
     @FXML
     private TextField adminPassword;
 
-    //Prox implementation to work in summer
+
     @Override
     public void onOpen(Object input) throws Exception {
 
