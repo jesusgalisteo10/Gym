@@ -65,17 +65,19 @@ public class MainController extends Controller implements Initializable {
      */
     @Override
     public void onOpen(Object input) throws Exception {
-        // Inicializa el DAO  para acceder a la información del cliente.
+        // Inicializa el DAO para acceder a la información del cliente.
         ClientDAO cdao = new ClientDAO();
 
         // Recupera todos los clientes de la base de datos.
         List<Client> clients = cdao.findAll();
 
-       // Convierte la lista de clientes a una lista observable para JavaFX (necesario para TableView).
+        // Convierte la lista de clientes a una lista observable para JavaFX (necesario para TableView).
         this.clientList = FXCollections.observableArrayList(clients);
 
         // Establece la lista observable como los elementos a mostrar en la tabla (tableInfo).
+        tableInfo.setItems(clientList);
     }
+
 
 
     @Override
