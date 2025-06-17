@@ -1,15 +1,15 @@
 package com.example.model.entity;
 
-public class ClientMachine {
+public class Client_Machine {
     private String clientCode;
     private String machineCode;
 
     // Constructor vacío
-    public ClientMachine() {
+    public Client_Machine() {
     }
 
     // Constructor con parámetros
-    public ClientMachine(String clientCode, String machineCode) {
+    public Client_Machine(String clientCode, String machineCode) {
         this.clientCode = clientCode;
         this.machineCode = machineCode;
     }
@@ -46,7 +46,7 @@ public class ClientMachine {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ClientMachine that = (ClientMachine) o;
+        Client_Machine that = (Client_Machine) o;
 
         if (clientCode != null ? !clientCode.equals(that.clientCode) : that.clientCode != null) return false;
         return machineCode != null ? machineCode.equals(that.machineCode) : that.machineCode == null;
