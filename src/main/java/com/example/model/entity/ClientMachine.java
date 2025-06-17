@@ -31,7 +31,7 @@ public class ClientMachine {
         this.machineCode = machineCode;
     }
 
-    // Método toString()
+    // metodo toString()
     @Override
     public String toString() {
         return "ClientMachine{" +
@@ -40,7 +40,7 @@ public class ClientMachine {
                 '}';
     }
 
-    // Métodos equals() y hashCode() si es necesario
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
