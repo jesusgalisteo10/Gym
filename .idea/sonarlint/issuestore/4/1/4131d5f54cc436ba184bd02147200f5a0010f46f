@@ -1,20 +1,0 @@
-
-•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‡Á¤€J$a591b13f-bf34-4c11-97fe-cf4543d34cc0
-¢
-java:S4165"fRemove this useless assignment; "machines" already holds the assigned value along all execution paths.(”êı­J$5fb8835f-4f87-45ca-a45f-32fad6ae3499
-	java:S116"ORename this field "Code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æœó×ûÿÿÿÿJ$ea1f1874-e0d7-4b6e-8720-1ef3bfdbd767
-	java:S116
-"ORename this field "Name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(É¬­ÁøÿÿÿÿJ$78a6efce-7754-46d3-9bdc-e120ddf7cace
-’	java:S116"RRename this field "Surname" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€§ğ¥ıÿÿÿÿJ$4f78cc81-a071-40ec-b4ff-11d5cec66618
-‹	java:S116"PRename this field "Email" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áï»‚J$0d5c0b14-d231-4ac4-8a4d-930efeebf82c
-“	java:S116"SRename this field "Password" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬›™ÂûÿÿÿÿJ$ba530897-520a-4528-a875-8338e52098b7
-	java:S116"NRename this field "Dni" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÇÅ—½øÿÿÿÿJ$4ee8c012-f105-4752-abb8-627cb59170a0
-‰	java:S116"NRename this field "Sex" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±Æ±ÌJ$471c21a7-a249-4250-b740-47fbba7a5420
-\
-java:S1161 ":Add the "@Override" annotation above this method signature(‰¡•Ğşÿÿÿÿ8†Ğ’şŸ2
-\
-java:S1161$":Add the "@Override" annotation above this method signature(æ±±¬øÿÿÿÿ8†Ğ’şŸ2
-k
-java:S1656"/Remove or correct this useless self-assignment.(”êı­J$a3a14b1b-af0c-4a21-8f31-9b982ff825b4
-l
-java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒJ$284f4cb1-9724-4ea6-ab8c-39082353ccfb
